@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistroService } from '../Services/registro.service';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-registro',
@@ -53,19 +54,30 @@ export class RegistroComponent implements OnInit {
       this.client.postRequest('http://localhost:5000/api/v01/user/registro', data).subscribe(
 
         (response: any) => {
+          this.load = true;
           //cambiando load a true, volvemos a ocultar el spinner
           //this.load = true;
-          this.route.navigate(['/inicio2']);
+          //this.route.navigate(['/inicio2']);
           //console.log(response);
-          
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            this.route.navigate(['/inicio2'])
+          })
+
+          });
          
-      },
+
       (error) => {
         //this.load = true;
 
         console.log(error.status);
 
-      })
+      }
       
 
     } else {
@@ -75,6 +87,8 @@ export class RegistroComponent implements OnInit {
 
     
   }
+
+  
 
 
 }
